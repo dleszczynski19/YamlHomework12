@@ -18,7 +18,7 @@ public class TestBase {
 
     @BeforeAll
     static void setup() {
-        environmentConfig = new EnvironmentConfig();
+        environmentConfig = EnvironmentConfig.getInstance();
         browserEnvironment = environmentConfig.getBrowserEnvironment();
         driver = browserEnvironment.getDriver();
         log.info("Driver setup and initialized properly");

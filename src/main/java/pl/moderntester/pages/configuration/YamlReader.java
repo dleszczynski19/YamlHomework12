@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.Is.is;
 
 public class YamlReader {
@@ -22,7 +23,7 @@ public class YamlReader {
             assertThat(environment, is(IsNull.notNullValue()));
         } catch (AssertionError e) {
             log.error("Wrong environment!");
-            assert false;
+            assertThat(true, equalTo(false));
         }
         return environment;
     }

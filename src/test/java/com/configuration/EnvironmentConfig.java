@@ -24,11 +24,19 @@ public class EnvironmentConfig {
         environment = yamlReader.getCurrentConfig(yamlFile, environmentName);
     }
 
+    public static EnvironmentConfig getInstance() {
+        return EnvironmentConfig.EnvironmentPropertySingleton.INSTANCE;
+    }
+
     public BrowserEnvironment getBrowserEnvironment() {
         return browserEnvironment;
     }
 
     public Environment getEnvironment() {
         return environment;
+    }
+
+    private static class EnvironmentPropertySingleton {
+        private static final EnvironmentConfig INSTANCE = new EnvironmentConfig();
     }
 }
