@@ -1,47 +1,38 @@
 package pl.moderntester.pages.configuration;
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import org.hamcrest.core.IsNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.moderntester.models.Environment;
-import pl.moderntester.models.YamlFile;
+import pl.moderntester.models.Config;
 
 import java.io.File;
 import java.io.IOException;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.core.Is.is;
-
 public class YamlReader {
     private static Logger log = LoggerFactory.getLogger(YamlReader.class);
+    private Config configEnv;
 
-    public Environment getCurrentConfig(YamlFile yamlFile, String environmentName) {
-        Environment environment = yamlFile.getEnvironments().get(environmentName);
-        try {
-            assertThat(environment, is(IsNull.notNullValue()));
-        } catch (AssertionError e) {
-            log.error("Wrong environment!");
-            assertThat(true, equalTo(false));
-        }
-        return environment;
+    public YamlReader() {
+        configEnv = getYaml(getConfigFile(), Config.class);
     }
 
-    public YamlFile getYamlFile() {
-        YAMLMapper mapper = new YAMLMapper();
-        File file = new File(java.util.Objects.requireNonNull(Thread.currentThread()
+    public Config getConfigEnv() {
+        return configEnv;
+    }
+
+    public File getConfigFile() {
+        return new File(java.util.Objects.requireNonNull(Thread.currentThread()
                 .getContextClassLoader()
                 .getResource("configTest.yaml")).getFile());
-        return deserializeYaml(mapper, file);
     }
 
-    public YamlFile deserializeYaml(YAMLMapper mapper, File file) {
+    public final <T> T getYaml(File file, Class<T> className) {
         try {
-            return mapper.readValue(file, YamlFile.class);
+            YAMLMapper mapper = new YAMLMapper();
+            return mapper.readValue(file, className);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Can't read value", className, e);
+            return null;
         }
-        return null;
     }
 }

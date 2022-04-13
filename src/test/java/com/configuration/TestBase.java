@@ -29,8 +29,4 @@ public class TestBase {
         driver.quit();
         log.info("Driver closed properly");
     }
-
-    public static EnvironmentConfig getEnvironmentConfig() {
-        return environmentConfig;
-    }
 }

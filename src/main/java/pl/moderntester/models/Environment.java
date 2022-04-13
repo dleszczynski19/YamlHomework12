@@ -1,22 +1,24 @@
 package pl.moderntester.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Environment {
-    private String message;
-    private User user;
+    private YamlFile integrate;
+    private YamlFile test;
+    private List<YamlFile> envList = new ArrayList<>();
 
-    public Environment() {
+    public List<YamlFile> getEnvList() {
+        envList.add(getIntegrate());
+        envList.add(getTest());
+        return envList;
     }
 
-    public Environment(String message, User user) {
-        this.message = message;
-        this.user = user;
+    public YamlFile getIntegrate() {
+        return integrate;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public User getUser() {
-        return user;
+    public YamlFile getTest() {
+        return test;
     }
 }
